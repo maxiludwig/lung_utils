@@ -5,10 +5,10 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "PySkel"
+name = "LungUtils"
 version = "1.0"
-authors = [{ name = "David Rudlstorfer" }]
-maintainers = [{ name = "David Rudlstorfer" }]
+authors = [{ name = "Maxi Ludwig" }]
+maintainers = [{ name = "Maxi Ludwig" }]
 description = "A quick start Python skeleton with many amenities"
 readme = "README.md"
 license = {file = "LICENSE.md"}
@@ -20,13 +20,13 @@ dynamic = ["dependencies"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["pyskel"]
+include = ["lung_utils"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }
 
 [project.scripts]
-pyskel = "pyskel.main:main"
+lung_utils = "lung_utils.main:main"
 
 ## Tools
 
@@ -46,8 +46,8 @@ relative_files = true
 profile = "black"
 line_length = 79
 filter_files = true
-src_paths = ["src/pyskel/", "tests/"]
+src_paths = ["src/lung_utils/", "tests/"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-p pytest_cov --cov-report=term --cov-report=html --cov-fail-under=90 --cov=src/pyskel/ --cov-append"
+addopts = "-p pytest_cov --cov-report=term --cov-report=html --cov-fail-under=90 --cov=src/lung_utils/ --cov-append"

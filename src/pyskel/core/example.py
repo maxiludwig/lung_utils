@@ -1,4 +1,4 @@
-"""Exemplary function to be executed within PySkel."""
+"""Exemplary function to be executed within LungUtils."""
 
 
 def exemplary_function(a: float, b: float) -> float:

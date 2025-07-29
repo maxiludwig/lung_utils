@@ -1,4 +1,4 @@
-"""Utilities for PySkel main routine."""
+"""Utilities for LungUtils main routine."""
 
 import logging
 import os
@@ -7,29 +7,29 @@ import time
 import yaml
 from pytoda.logger import log_full_width, print_header, setup_logging
 
-log = logging.getLogger("pyskel")
+log = logging.getLogger("lung_utils")
 
 
 class RunManager:
-    """Helper functions to manage a PySkel run."""
+    """Helper functions to manage a LungUtils run."""
 
     def __init__(self, config):
 
         self.config = config
 
     def init_run(self) -> None:
-        """Set up PySkel run including logger."""
+        """Set up LungUtils run including logger."""
 
         setup_logging(
             self.config.general.log_to_console,
             self.config.general.log_file,
             self.config.general.output_directory,
             self.config.general.sim_name,
-            "pyskel",
+            "lung_utils",
         )
 
         print_header(
-            title="PySkel",
+            title="LungUtils",
             description="General Python Skeleton",
         )
 
