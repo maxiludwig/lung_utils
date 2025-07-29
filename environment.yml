@@ -1,4 +1,4 @@
-name: pyskel
+name: lung_utils
 channels:
   - conda-forge
   - nodefaults

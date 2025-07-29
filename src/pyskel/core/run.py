@@ -1,17 +1,17 @@
-"""Runner which executes the main routine of PySkel."""
+"""Runner which executes the main routine of LungUtils."""
 
 import logging
 import time
 from typing import Any
 
-from pyskel.core.example import exemplary_function
-from pyskel.core.utilities import RunManager
+from lung_utils.core.example import exemplary_function
+from lung_utils.core.utilities import RunManager
 
-log = logging.getLogger("pyskel")
+log = logging.getLogger("lung_utils")
 
 
-def run_pyskel(config: Any) -> None:
-    """General run procedure of PySkel.
+def run_lung_utils(config: Any) -> None:
+    """General run procedure of LungUtils.
 
     Args:
         config (Any): Munch type object containing all configs for current

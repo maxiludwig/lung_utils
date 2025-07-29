@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, mock_open, patch
 import pytest
 import yaml
 from munch import munchify
-from pyskel.main import main
+from lung_utils.main import main
 
 
 def test_main_config_file_exists(tmp_path: Path) -> None:
@@ -29,12 +29,12 @@ def test_main_config_file_exists(tmp_path: Path) -> None:
             "builtins.open", mock_open(read_data=yaml.dump(mock_config_data))
         ):
             with patch("yaml.safe_load", return_value=mock_config_data):
-                mock_run_pyskel = MagicMock()
-                with patch("pyskel.main.run_pyskel", mock_run_pyskel):
+                mock_run_lung_utils = MagicMock()
+                with patch("lung_utils.main.run_lung_utils", mock_run_lung_utils):
                     # Run main function
                     main()
 
-    captured_config = mock_run_pyskel.call_args[0][0]
+    captured_config = mock_run_lung_utils.call_args[0][0]
     assert captured_config == munchify(mock_config_data)
 
 
