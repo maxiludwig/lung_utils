@@ -6,8 +6,8 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import yaml
-from munch import munchify
 from lung_utils.core.utilities import RunManager
+from munch import munchify
 
 
 def test_run_manager_init_run() -> None:
@@ -18,7 +18,9 @@ def test_run_manager_init_run() -> None:
     with (
         patch("lung_utils.core.utilities.setup_logging") as mock_setup_logging,
         patch("lung_utils.core.utilities.print_header") as mock_print_header,
-        patch("lung_utils.core.utilities.log_full_width") as mock_log_full_width,
+        patch(
+            "lung_utils.core.utilities.log_full_width"
+        ) as mock_log_full_width,
         patch(
             "lung_utils.core.utilities.RunManager.write_config"
         ) as mock_write_config,
@@ -87,7 +89,9 @@ def test_run_manager_finish_run() -> None:
     mock_config = MagicMock()
 
     with (
-        patch("lung_utils.core.utilities.log_full_width") as mock_log_full_width,
+        patch(
+            "lung_utils.core.utilities.log_full_width"
+        ) as mock_log_full_width,
         patch("lung_utils.core.utilities.log") as mock_log,
     ):
 

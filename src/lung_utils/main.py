@@ -4,8 +4,8 @@ import argparse
 import os
 
 import yaml
-from munch import munchify
 from lung_utils.core.run import run_lung_utils
+from munch import munchify
 
 
 def main() -> None:

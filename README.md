@@ -10,7 +10,7 @@
 
 </div>
 
-LungUtils (**Py**thon **Skel**eton) is a quick-start Python repository to act as a skeleton for various projects around the multiphysics research code [4C](https://www.4c-multiphysics.org/) and leverages utilities from [PyToDa](https://github.com/maxiludwig/pytoda). It includes the following basic amenities and tools:
+LungUtils is a quick-start Python repository to act as a skeleton for various projects around the multiphysics research code [4C](https://www.4c-multiphysics.org/) and leverages utilities from [PyToDa](https://github.com/davidrudlstorfer/pytoda). It includes the following basic amenities and tools:
 
 - [PyTest](https://docs.pytest.org/) testing framework including an enforced minimum coverage check
 - Automated [Github CI/CD](https://resources.github.com/devops/ci-cd/)
@@ -23,7 +23,7 @@ The remaining parts of the readme are structured as follows:
 - [Setup](#setup)
 - [Installation](#installation)
 - [Execution](#execution)
-  - [Execute LungUtils](#execute-lung_utils)
+  - [Execute LungUtils](#execute-lungutils)
   - [Run testing framework and create coverage report](#run-testing-framework-and-create-coverage-report)
   - [Create documentation](#create-documentation)
 - [Dependency Management](#dependency-management)

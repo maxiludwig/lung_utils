@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, mock_open, patch
 
 import pytest
 import yaml
-from munch import munchify
 from lung_utils.main import main
+from munch import munchify
 
 
 def test_main_config_file_exists(tmp_path: Path) -> None:
@@ -30,7 +30,9 @@ def test_main_config_file_exists(tmp_path: Path) -> None:
         ):
             with patch("yaml.safe_load", return_value=mock_config_data):
                 mock_run_lung_utils = MagicMock()
-                with patch("lung_utils.main.run_lung_utils", mock_run_lung_utils):
+                with patch(
+                    "lung_utils.main.run_lung_utils", mock_run_lung_utils
+                ):
                     # Run main function
                     main()
 
