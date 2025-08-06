@@ -2,8 +2,8 @@
 
 from unittest.mock import MagicMock, patch
 
-from munch import munchify
 from lung_utils.core.run import run_lung_utils
+from munch import munchify
 
 
 def test_run_lung_utils() -> None:
@@ -13,7 +13,9 @@ def test_run_lung_utils() -> None:
 
     mock_run_manager = MagicMock()
 
-    with patch("lung_utils.core.run.RunManager", return_value=mock_run_manager):
+    with patch(
+        "lung_utils.core.run.RunManager", return_value=mock_run_manager
+    ):
         mock_exemplary_function = MagicMock(return_value="Exemplary output")
         with patch(
             "lung_utils.core.run.exemplary_function", mock_exemplary_function

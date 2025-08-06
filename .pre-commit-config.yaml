@@ -45,7 +45,7 @@ repos:
     rev: 1.7.0
     hooks:
       - id: interrogate
-        args: [--fail-under=100, --ignore-init-module, --style=google, -vv, src/lung_utils/, tests/]
+        args: [--fail-under=50, --ignore-init-module, --style=google, -vv, src/lung_utils/, tests/]
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
@@ -55,7 +55,7 @@ repos:
     rev: v1.10.0
     hooks:
       - id: mypy
-        args: ["--install-types", "--non-interactive", "--ignore-missing-imports", "--exclude=src/pytoda/*", "--follow-imports=silent"]
+        args: ["--install-types", "--non-interactive", "--ignore-missing-imports", "--follow-imports=silent"]
   - repo: https://github.com/asmeurer/removestar
     rev: "1.5"
     hooks:

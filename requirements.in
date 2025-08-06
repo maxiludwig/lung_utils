@@ -12,3 +12,8 @@ pre-commit
 pyfiglet
 pytest-cov
 pyyaml
+plotly
+matplotlib
+pandas
+dash
+typing-extensions==4.12.2
