@@ -60,13 +60,14 @@ def test_create_dash_app_layout(mock_graph, mock_dropdown, sample_dataframe):
         == "Hamilton Ventilator Waveform Viewer"
     )
     assert app.layout.children[1].children == f"Loaded file: {file_path}"
-    assert app.layout.children[2].children == "Select waveform:"
+    assert app.layout.children[2].children == "Select up to 3 waveforms:"
     mock_dropdown.assert_called_once_with(
         id="waveform-dropdown",
         options=[
             {"label": "Waveform1", "value": "Waveform1"},
             {"label": "Waveform2", "value": "Waveform2"},
         ],
-        value="Waveform1",
+        value=["Waveform1"],
+        multi=True,
     )
     mock_graph.assert_called_once_with(id="waveform-plot")

@@ -4,6 +4,7 @@ import dash
 import pandas as pd
 import plotly.graph_objs as go
 from dash import Input, Output, dcc, html
+from plotly.subplots import make_subplots
 
 
 # ==== Load waveform file ====
@@ -42,13 +43,14 @@ def create_dash_app(df, file_path):
                 id="file-info",
                 style={"marginBottom": "10px"},
             ),
-            html.Label("Select waveform:"),
+            html.Label("Select up to 3 waveforms:"),
             dcc.Dropdown(
                 id="waveform-dropdown",
                 options=[
                     {"label": col, "value": col} for col in waveform_columns
                 ],
-                value=waveform_columns[0] if waveform_columns else None,
+                value=[waveform_columns[0]] if waveform_columns else [],
+                multi=True,
             ),
             dcc.Graph(id="waveform-plot"),
         ]
@@ -57,21 +59,47 @@ def create_dash_app(df, file_path):
     @app.callback(
         Output("waveform-plot", "figure"), Input("waveform-dropdown", "value")
     )
-    def update_graph(selected_waveform):
-        if selected_waveform is None or df.empty:
+    def update_graph(selected_waveforms):
+        if not selected_waveforms or df.empty:
             return go.Figure()
 
-        y_data = pd.to_numeric(df[selected_waveform], errors="coerce")
-        trace = go.Scatter(
-            x=df["Time (s)"], y=y_data, mode="lines", name=selected_waveform
+        # Enforce maximum of 3 plots
+        if isinstance(selected_waveforms, str):
+            selected_waveforms = [selected_waveforms]
+
+        selected_waveforms = selected_waveforms[:3]
+        num_plots = len(selected_waveforms)
+
+        fig = make_subplots(
+            rows=num_plots,
+            cols=1,
+            shared_xaxes=True,
+            vertical_spacing=0.05,
+            subplot_titles=selected_waveforms,
         )
-        layout = go.Layout(
+
+        for i, waveform in enumerate(selected_waveforms, start=1):
+            y_data = pd.to_numeric(df[waveform], errors="coerce")
+            trace = go.Scatter(
+                x=df["Time (s)"], y=y_data, mode="lines", name=waveform
+            )
+            fig.add_trace(trace, row=i, col=1)
+            fig.update_yaxes(title_text=waveform, row=i, col=1)
+
+        # Calculate dynamic height (approx 300px per plot)
+        plot_height = max(400, 300 * num_plots)
+
+        fig.update_layout(
+            height=plot_height,
             xaxis={"title": "Time (s)"},
-            yaxis={"title": selected_waveform},
             margin={"l": 50, "r": 10, "t": 40, "b": 50},
-            hovermode="closest",
+            hovermode="x unified",
         )
-        return {"data": [trace], "layout": layout}
+
+        # Ensure the bottom-most x-axis has a title
+        fig.update_xaxes(title_text="Time (s)", row=num_plots, col=1)
+
+        return fig
 
     return app
 
