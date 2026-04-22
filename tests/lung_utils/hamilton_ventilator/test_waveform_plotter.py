@@ -10,10 +10,15 @@ from lung_utils.hamilton_ventilator.waveform_plotter import create_dash_app
 def sample_dataframe():
     """Fixture for a sample dataframe."""
     data = {
-        "Date_Time": [0, 1, 2, 3],
+        "Date_Time": [44917.617693, 44917.617705, 44917.617716, 44917.617728],
         "Time (s)": [0, 1, 2, 3],
         "Waveform1": [10, 20, 30, 40],
         "Waveform2": [5, 15, 25, 35],
+        "Absolute_Time": pd.to_datetime(
+            [44917.617693, 44917.617705, 44917.617716, 44917.617728],
+            unit="D",
+            origin="1899-12-30",
+        ),
     }
     return pd.DataFrame(data)
 
@@ -37,8 +42,9 @@ def test_create_dash_app(sample_dataframe):
         in app.layout.children[0].children
     )
     assert f"Loaded file: {file_path}" in app.layout.children[1].children
-    assert app.layout.children[3].id == "waveform-dropdown"
-    assert app.layout.children[4].id == "waveform-plot"
+    assert app.layout.children[2].id == "start-time-info"
+    assert app.layout.children[4].id == "waveform-dropdown"
+    assert app.layout.children[5].id == "waveform-plot"
 
 
 @patch("src.lung_utils.hamilton_ventilator.waveform_plotter.dcc.Dropdown")
@@ -60,7 +66,9 @@ def test_create_dash_app_layout(mock_graph, mock_dropdown, sample_dataframe):
         == "Hamilton Ventilator Waveform Viewer"
     )
     assert app.layout.children[1].children == f"Loaded file: {file_path}"
-    assert app.layout.children[2].children == "Select up to 3 waveforms:"
+    assert app.layout.children[2].id == "start-time-info"
+    assert "Recording Start Time:" in app.layout.children[2].children
+    assert app.layout.children[3].children == "Select up to 3 waveforms:"
     mock_dropdown.assert_called_once_with(
         id="waveform-dropdown",
         options=[
