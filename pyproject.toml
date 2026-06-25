@@ -27,6 +27,7 @@ dependencies = { file = ["requirements.txt"] }
 
 [project.scripts]
 lung_utils = "lung_utils.main:main"
+hamilton-waveform-export = "lung_utils.hamilton_ventilator.waveform_exporter:main"
 
 ## Tools
 
