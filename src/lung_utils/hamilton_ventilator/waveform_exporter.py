@@ -2,8 +2,6 @@
 
 import argparse
 import re
-import shutil
-import subprocess
 
 import numpy as np
 import pandas as pd
@@ -149,50 +147,11 @@ def format_fourc_linearinterpolation(
     return "\n".join(lines)
 
 
-def copy_to_clipboard(text: str) -> None:
-    """Copy text to the system clipboard without blocking the CLI."""
-    if shutil.which("wl-copy"):
-        subprocess.run(
-            ["wl-copy"],
-            input=text,
-            text=True,
-            check=True,
-            timeout=5,
-        )
-        return
-
-    if shutil.which("xclip"):
-        process = subprocess.Popen(
-            ["xclip", "-selection", "clipboard"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            text=True,
-            start_new_session=True,
-        )
-        if process.stdin is not None:
-            process.stdin.write(text)
-            process.stdin.close()
-        return
-
-    if shutil.which("xsel"):
-        process = subprocess.Popen(
-            ["xsel", "--clipboard", "--input"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            text=True,
-            start_new_session=True,
-        )
-        if process.stdin is not None:
-            process.stdin.write(text)
-            process.stdin.close()
-        return
-
-    raise RuntimeError(
-        "No supported clipboard backend found. Install "
-        "wl-copy, xclip, or xsel."
-    )
+def save_waveforms_fourc(content: str, output: str) -> None:
+    """Write a 4C linearinterpolation function block to a YAML file."""
+    with open(output, "w") as f:
+        f.write(content)
+        f.write("\n")
 
 
 def choose_waveform_fields(fields: list[str]) -> list[str]:
@@ -250,7 +209,7 @@ def prompt_float(label: str, default: float | None = None) -> float:
 def build_parser() -> argparse.ArgumentParser:
     """Create the command line parser."""
     parser = argparse.ArgumentParser(
-        description="Export Hamilton waveform.txt fields to npy or 4C formats."
+        description="Export Hamilton waveform to npy or 4C YAML formats."
     )
     parser.add_argument("waveform_file", help="Path to Hamilton waveform.txt")
     parser.add_argument(
@@ -294,7 +253,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--output",
-        help="Output file path. Required for --format npy.",
+        help="Output file path. Required for all formats.",
     )
     parser.add_argument(
         "--funct",
@@ -337,8 +296,8 @@ def main() -> None:
         parser.error(
             "--format fourc requires exactly one selected waveform field."
         )
-    if args.format == "npy" and not args.output:
-        parser.error("--output is required for --format npy.")
+    if not args.output:
+        parser.error("--output is required.")
 
     available_start = float(df["Time (s)"].min())
     available_end = float(df["Time (s)"].max())
@@ -387,10 +346,10 @@ def main() -> None:
         funct_number=args.funct,
         variable_name=variable_name,
     )
-    copy_to_clipboard(function_string)
+    save_waveforms_fourc(function_string, args.output)
     print(
-        "Copied 4C linearinterpolation function "
-        f"for '{field}' with {len(waveforms['time'])} points to clipboard."
+        f"Saved 4C linearinterpolation function "
+        f"for '{field}' with {len(waveforms['time'])} points to {args.output}."
     )
     if args.print:
         print(function_string)
